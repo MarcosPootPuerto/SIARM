@@ -1,7 +1,7 @@
 <?php
 
 // Asegúrate de requerir la conexión o el archivo de funciones globales al inicio
-require_once __DIR__ . 'conexion.php'; 
+require_once __DIR__ . '/conexion.php';
 
 class AdminController {
     public function gestionar($pdo) {
