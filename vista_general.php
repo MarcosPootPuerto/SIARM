@@ -2,7 +2,6 @@
 // vista_general.php
 session_start();
 
-// Corregido: Agregar la barra diagonal "/" antes de conexion.php
 require_once __DIR__ . '/conexion.php';
 
 // Definir la función de seguridad si no está en otro archivo
@@ -493,7 +492,6 @@ $es_admin = (($_SESSION['rol'] ?? '') === 'administrador');
             isConnected = true;
             closeModal('deviceModal');
 
-            // Solicitar permisos de notificación nativa del navegador al vincular
             solicitarPermisoNotificaciones();
 
             document.body.classList.remove('device-disconnected');
@@ -586,7 +584,6 @@ $es_admin = (($_SESSION['rol'] ?? '') === 'administrador');
             formData.append('evento', evento);
             formData.append('nivel', nivel);
 
-            // Guardar en la base de datos vía PHP
             fetch('guardar_evento.php', {
                 method: 'POST',
                 body: formData
@@ -615,7 +612,9 @@ $es_admin = (($_SESSION['rol'] ?? '') === 'administrador');
                 
                 let html = '';
                 registros.forEach(reg => {
-                    html += `<tr><td>${reg.hora}</td><td>${reg.evento}</td><td>${reg.nivel}</td></tr>`;
+                    // Compatible con fecha_hora y hora
+                    const tiempo = reg.fecha_hora || reg.hora || '--';
+                    html += `<tr><td>${tiempo}</td><td>${reg.evento}</td><td>${reg.nivel}</td></tr>`;
                 });
                 tbody.innerHTML = html;
             })
