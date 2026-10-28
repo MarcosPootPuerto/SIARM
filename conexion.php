@@ -23,8 +23,11 @@ $user = "postgres.nybwjlhesdqzzsqicjry";
 $password = "AfBJe,+AR/wv4MT";
 
 try {
-    $dsn = "pgsql:host=$host;port=$port;dbname=$db;sslmode=require";
-    $pdo = new PDO($dsn, $user, $pass, [
+    // Corregido: Usar $dbname en lugar de $db
+    $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require";
+    
+    // Corregido: Usar $password en lugar de $pass
+    $pdo = new PDO($dsn, $user, $password, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
     ]);
