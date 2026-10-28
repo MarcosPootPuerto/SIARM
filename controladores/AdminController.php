@@ -1,7 +1,7 @@
 <?php
 // controladores/AdminController.php
 
-// 1. Asegurar el inicio de sesión y la disponibilidad de la función de seguridad
+// 1. Iniciar sesión y declarar la función de seguridad obligatoria
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
