@@ -43,23 +43,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 echo json_encode(['success' => false, 'error' => 'Petición inválida o faltan parámetros']);
 
 /**
- * Función genérica de procesamiento de alertas automáticas (sin dependencias ni tokens obligatorios)
+ * Función genérica de procesamiento de alertas automáticas
  */
 function procesarNotificacionAuto($telefonoDestino, $mensaje) {
-    // Modo automático local activo por defecto
     $modoLocalAuto = true;
 
     if ($modoLocalAuto) {
         return true;
     }
 
-    // Configuración opcional para pasarelas en producción (Twilio / Altiria / etc.)
     $accountSid = "TU_ACCOUNT_SID";
     $authToken  = "TU_AUTH_TOKEN";
     $numeroEmisor = "+1234567890";
 
     if (empty($accountSid) || $accountSid === "TU_ACCOUNT_SID") {
-        return true; // Fallback automático si no hay token configurado
+        return true;
     }
 
     $url = "https://api.twilio.com/2010-04-01/Accounts/$accountSid/Messages.json";
