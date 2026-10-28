@@ -7,16 +7,17 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo pdo_pgsql pgsql \
     && rm -rf /var/lib/apt/lists/*
 
-# Configurar Apache para que reconozca index.php como archivo por defecto
-RUN sed -i 's/DirectoryIndex index.html/DirectoryIndex index.php index.html/g' /etc/apache2/mods-enabled/dir.conf
+# Configurar Apache para interpretar archivos .php y usar index.php por defecto
+RUN echo "DirectoryIndex index.php index.html" > /etc/apache2/conf-available/docker-php.conf \
+    && a2enconf docker-php
 
-# Habilitar mod_rewrite de Apache para rutas limpias
+# Habilitar mod_rewrite de Apache
 RUN a2enmod rewrite
 
 # Copiar el código del proyecto al directorio web de Apache
 COPY . /var/www/html/
 
-# Ajustar permisos para el usuario del servidor web
+# Ajustar permisos para el servidor web
 RUN chown -R www-data:www-data /var/www/html
 
 # Exponer el puerto 80
