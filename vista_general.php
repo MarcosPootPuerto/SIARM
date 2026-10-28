@@ -1,9 +1,9 @@
 <?php
 // vista_general.php
 session_start();
-require_once __DIR__ . 'conexion.php';
+require_once __DIR__ . '/conexion.php';
 
-// Definir la función localmente si no existe en otro archivo
+// Definir la función de seguridad aquí mismo para evitar el error fatal
 if (!function_exists('exigir_sesion')) {
     function exigir_sesion() {
         if (!isset($_SESSION['id'])) {
@@ -18,6 +18,7 @@ exigir_sesion();
 $nombre = $_SESSION['nombre'] ?? 'Administrador';
 $es_admin = (($_SESSION['rol'] ?? '') === 'administrador');
 ?>
+
 <!DOCTYPE html>
 <html lang="es" class="device-disconnected">
 <head>
