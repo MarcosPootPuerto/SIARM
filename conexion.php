@@ -4,19 +4,22 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$host = '127.0.0.1;port=3307'; // Cambia esto si tu servidor MySQL está en otro host o puerto
-$dbname = 'siarm'; // Cambia esto por el nombre de tu base de datos si es diferente
-$username = 'root';
-$password = '';
+$host = 'db.nybwjlhesdqzzsqicjry.supabase.co';
+$port = '5432';
+$dbname = 'postgres';
+$username = 'postgres';
+$password = 'AfBJe,+AR/wv4MT'; // Reemplaza esto con tu contraseña de Supabase
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password, [
+    $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require";
+    
+    $pdo = new PDO($dsn, $username, $password, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
     ]);
 } catch (PDOException $e) {
     die("<div style='background: #fee2e2; color: #991b1b; padding: 20px; font-family: sans-serif; border-radius: 8px; margin: 20px;'>
-            <h3>Error de Conexión a la Base de Datos:</h3>
+            <h3>Error de Conexión a la Base de Datos (Supabase):</h3>
             <p>" . htmlspecialchars($e->getMessage()) . "</p>
          </div>");
 }
