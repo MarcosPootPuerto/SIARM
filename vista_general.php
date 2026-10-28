@@ -1,6 +1,18 @@
 <?php
 // vista_general.php
-require_once __DIR__ . '/conexion.php';
+session_start();
+require_once __DIR__ . 'conexion.php';
+
+// Definir la función localmente si no existe en otro archivo
+if (!function_exists('exigir_sesion')) {
+    function exigir_sesion() {
+        if (!isset($_SESSION['id'])) {
+            header("Location: login.php");
+            exit();
+        }
+    }
+}
+
 exigir_sesion();
 
 $nombre = $_SESSION['nombre'] ?? 'Administrador';
