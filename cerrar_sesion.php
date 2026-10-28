@@ -1,15 +1,15 @@
 <?php
 // cerrar_sesion.php
 
-// 1. Asegurar que la sesión esté iniciada antes de destruirla
+// 1. Iniciar o verificar la sesión antes de destruirla
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// 2. Limpiar todas las variables de sesión
+// 2. Vaciar el arreglo de sesión
 $_SESSION = array();
 
-// 3. Borrar la cookie de sesión si existe
+// 3. Eliminar la cookie de sesión si está activa
 if (ini_get("session.use_cookies")) {
     $params = session_get_cookie_params();
     setcookie(session_name(), '', time() - 42000,
@@ -21,6 +21,6 @@ if (ini_get("session.use_cookies")) {
 // 4. Destruir la sesión por completo
 session_destroy();
 
-// 5. Redirigir limpiamente al login sin que se envíen avisos previos
+// 5. Redirigir de inmediato al login sin generar salidas previas
 header("Location: login.php");
 exit();
