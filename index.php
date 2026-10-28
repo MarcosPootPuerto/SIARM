@@ -1,5 +1,8 @@
 <?php
+
 require_once __DIR__ . '/conexion.php';
+header("Location: login.php");
+exit();
 
 $sesionActiva = isset($_SESSION['usuario_id']);
 $nombreUsuario = $_SESSION['nombre'] ?? 'Usuario';
