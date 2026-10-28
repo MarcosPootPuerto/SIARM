@@ -1,9 +1,11 @@
 <?php
 // vista_general.php
 session_start();
+
+// Corregido: Agregar la barra diagonal "/" antes de conexion.php
 require_once __DIR__ . '/conexion.php';
 
-// Definir la función de seguridad aquí mismo para evitar el error fatal
+// Definir la función de seguridad si no está en otro archivo
 if (!function_exists('exigir_sesion')) {
     function exigir_sesion() {
         if (!isset($_SESSION['id'])) {
