@@ -1,3 +1,6 @@
+# Establecer index.php como la página de inicio predeterminada
+DirectoryIndex index.php
+
 # Habilitar compresión Gzip para texto, CSS y JS
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/javascript application/json
