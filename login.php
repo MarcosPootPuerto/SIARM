@@ -1,9 +1,8 @@
 <?php
 // login.php
-// 1. Iniciar sesión obligatoriamente antes de manipular $_SESSION
 session_start();
 
-// 2. Incluir la conexión PDO
+// Corregido: Asegúrate de incluir la barra diagonal "/"
 require_once __DIR__ . '/conexion.php';
 
 $mensaje_error = '';
