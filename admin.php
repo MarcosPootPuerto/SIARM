@@ -1,4 +1,16 @@
 <?php
+
+// Asegúrate de requerir la conexión o el archivo de funciones globales al inicio
+require_once __DIR__ . '/../conexion.php'; 
+
+class AdminController {
+    public function gestionar($pdo) {
+        // Validación de sesión
+        exigir_sesion();
+        
+        // Resto de la lógica del controlador...
+    }
+}
 // Activar visualización estricta de errores
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
