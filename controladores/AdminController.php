@@ -1,6 +1,20 @@
 <?php
 // controladores/AdminController.php
 
+// 1. Asegurar el inicio de sesión y la disponibilidad de la función de seguridad
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!function_exists('exigir_sesion')) {
+    function exigir_sesion() {
+        if (!isset($_SESSION['id'])) {
+            header("Location: ../login.php");
+            exit();
+        }
+    }
+}
+
 require_once __DIR__ . '/../conexion.php';
 require_once __DIR__ . '/../modelos/UsuarioModel.php';
 
