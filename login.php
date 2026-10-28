@@ -1,6 +1,10 @@
 <?php
 // login.php
-require_once __DIR__ . 'conexion.php';
+// 1. Iniciar sesión obligatoriamente antes de manipular $_SESSION
+session_start();
+
+// 2. Incluir la conexión PDO
+require_once __DIR__ . '/conexion.php';
 
 $mensaje_error = '';
 
@@ -9,31 +13,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $contrasena = $_POST['contrasena'] ?? '';
 
     if (!empty($correo) && !empty($contrasena)) {
-        // Buscamos al usuario por correo utilizando la columna 'contrasena'
-        $stmt = $pdo->prepare("SELECT id, nombre, correo, contrasena, rol FROM usuarios WHERE correo = ?");
-        $stmt->execute([$correo]);
-        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+        // Validar que $pdo esté disponible antes de preparar la consulta
+        if (isset($pdo)) {
+            $stmt = $pdo->prepare("SELECT id, nombre, correo, contrasena, rol FROM usuarios WHERE correo = ?");
+            $stmt->execute([$correo]);
+            $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($usuario) {
-            // Verificamos la contraseña (compatible con password_hash o texto plano temporal)
-            if (password_verify($contrasena, $usuario['contrasena']) || $contrasena === $usuario['contrasena']) {
-                // Iniciar sesión correctamente
-                $_SESSION['id'] = $usuario['id'];
-                $_SESSION['nombre'] = $usuario['nombre'];
-                $_SESSION['rol'] = $usuario['rol'];
+            if ($usuario) {
+                // Verificamos la contraseña (compatible con password_hash o texto plano temporal)
+                if (password_verify($contrasena, $usuario['contrasena']) || $contrasena === $usuario['contrasena']) {
+                    // Iniciar sesión correctamente
+                    $_SESSION['id'] = $usuario['id'];
+                    $_SESSION['nombre'] = $usuario['nombre'];
+                    $_SESSION['rol'] = $usuario['rol'];
 
-                // Redirigir según el rol
-                if ($usuario['rol'] === 'administrador') {
-                    header("Location: admin.php");
+                    // Redirigir según el rol
+                    if ($usuario['rol'] === 'administrador') {
+                        header("Location: admin.php");
+                    } else {
+                        header("Location: vista_general.php");
+                    }
+                    exit;
                 } else {
-                    header("Location: vista_general.php");
+                    $mensaje_error = "Contraseña incorrecta.";
                 }
-                exit;
             } else {
-                $mensaje_error = "Contraseña incorrecta.";
+                $mensaje_error = "No existe una cuenta registrada con este correo.";
             }
         } else {
-            $mensaje_error = "No existe una cuenta registrada con este correo.";
+            $mensaje_error = "Error crítico: No hay conexión con la base de datos.";
         }
     } else {
         $mensaje_error = "Por favor completa todos los campos.";
